@@ -27,6 +27,26 @@ cd zabbix-monitoring-docker
 
 docker compose up --build
 
+```
+
+### 2. Import Database
+
+```sh
+docker exec -it zabbix-server /bin/bash
+gzip -d /usr/share/zabbix-sql-scripts/mysql/server.sql.gz
+mysql -uroot -p -h db1 zabbix < server.sql
+service zabbix-server start
+service zabbix-agent start
+
+
+```
+### 3. Successfull
+
+```sh
+Go to http://localhost/zabbix
+
+
+```
 ---
 
 
