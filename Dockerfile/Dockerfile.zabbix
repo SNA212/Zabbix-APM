@@ -1,0 +1,36 @@
+# Use an official Ubuntu image as the base
+FROM ubuntu:24.04
+
+# Set environment variables
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Update the package list and install prerequisites
+RUN apt-get update && \
+    apt-get install -y wget gnupg lsb-release apt-transport-https locales && \
+    wget https://repo.zabbix.com/zabbix/7.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_7.0-2+ubuntu24.04_all.deb && \
+    dpkg -i zabbix-release_7.0-2+ubuntu24.04_all.deb && \
+    apt-get update
+
+# Install Zabbix server, frontend, Apache, and required components
+RUN apt-get install -y \
+    zabbix-server-mysql \
+    zabbix-frontend-php \
+    zabbix-apache-conf \
+    zabbix-sql-scripts \
+    zabbix-agent \
+    apache2
+
+# Generate en_US.UTF-8 locale
+RUN locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8
+
+# Set ServerName to prevent Apache warning
+RUN echo "ServerName 127.0.0.1:80" >> /etc/apache2/apache2.conf
+
+# Configure the database for Zabbix server
+COPY zabbix_server.conf /etc/zabbix/zabbix_server.conf
+
+# Expose relevant ports
+EXPOSE 10051 10050 80
+
+#CMD [ "/bin/bash" ]
+CMD ["sh", "-c", "sleep 10 && service apache2 restart && tail -f /dev/null"]

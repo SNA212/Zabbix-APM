@@ -1,0 +1,40 @@
+version: '3.7'
+
+services:
+  db1:
+    build:
+      context: .
+      dockerfile: Dockerfile.mysql
+    container_name: zabbix_mysql
+    volumes:
+      - zabbix_mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: zabbix
+      MYSQL_USER: zabbix
+      MYSQL_PASSWORD: password
+    networks:
+      - zabbix_net
+
+  zabbix:
+    build:
+      context: .
+      dockerfile: Dockerfile.zabbix
+    container_name: zabbix_server
+    depends_on:
+      - db1
+    volumes:
+      - zabbix_config_data:/etc/zabbix
+    networks:
+      - zabbix_net
+    ports:
+      - "80:80"
+      - "10051:10051"
+      - "10050:10050"
+
+networks:
+  zabbix_net:
+
+volumes:
+  zabbix_mysql_data:
+  zabbix_config_data:

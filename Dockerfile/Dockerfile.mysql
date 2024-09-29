@@ -1,0 +1,11 @@
+# Use an official MySQL image as the base
+FROM mysql:8.0
+
+# Set environment variables for MySQL
+ENV MYSQL_ROOT_PASSWORD=rootpassword
+ENV MYSQL_DATABASE=zabbix
+ENV MYSQL_USER=zabbix
+ENV MYSQL_PASSWORD=password
+
+# Copy the setup SQL script
+COPY setup-db.sql /docker-entrypoint-initdb.d/
