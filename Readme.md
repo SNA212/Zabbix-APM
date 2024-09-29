@@ -4,13 +4,14 @@ This repository provides a Docker-based setup for deploying the Zabbix Monitorin
 
 ## Folder Structure
 
+```
 .
 ├── Dockerfile.zabbix     # Dockerfile for the Zabbix server and Apache
 ├── docker-compose.yml    # Docker Compose file to define services
 ├── zabbix_server.conf    # Configuration file for the Zabbix server
 ├── .env                  # Environment variables for MySQL
 └── README.md             # Documentation for the project
-
+```
 
 ## Prerequisites
 
