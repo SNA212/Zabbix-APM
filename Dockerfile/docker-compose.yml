@@ -31,6 +31,18 @@ services:
       - "80:80"
       - "10051:10051"
       - "10050:10050"
+  
+  dvwa:
+    build:
+      context: .
+      dockerfile: dvwa/Dockerfile.dvwa
+    container_name: dvwa
+    volumes:
+      - zabbix_config_data:/dvwa
+    networks:
+      - zabbix_net
+    ports:
+      - "8080:80"
 
 networks:
   zabbix_net:
