@@ -24,7 +24,7 @@ RUN apt-get install -y \
 RUN locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8
 
 # Set ServerName to prevent Apache warning
-RUN echo "ServerName 127.0.0.1:80" >> /etc/apache2/apache2.conf
+RUN echo "ServerName 127.0.0.1" >> /etc/apache2/apache2.conf
 
 # Configure the database for Zabbix server
 COPY zabbix_server.conf /etc/zabbix/zabbix_server.conf
@@ -33,4 +33,4 @@ COPY zabbix_server.conf /etc/zabbix/zabbix_server.conf
 EXPOSE 10051 10050 80
 
 #CMD [ "/bin/bash" ]
-CMD ["sh", "-c", "sleep 10 && service apache2 restart && tail -f /dev/null"]
+CMD ["sh", "-c", "sleep 10 && service apache2 restart && service zabbix-agent restart && zabbix_server -f && tail -f /dev/null"]

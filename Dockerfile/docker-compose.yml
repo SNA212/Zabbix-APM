@@ -31,6 +31,7 @@ services:
       - "80:80"
       - "10051:10051"
       - "10050:10050"
+      - "10052:10052"
   
   dvwa:
     build:
@@ -43,6 +44,7 @@ services:
       - zabbix_net
     ports:
       - "8080:80"
+
 
 networks:
   zabbix_net:
